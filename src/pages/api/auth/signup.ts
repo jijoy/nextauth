@@ -7,16 +7,18 @@ export default async function signupHandler(
   const { method, body } = req;
   switch (method) {
     case "POST":
-      const { name, email, password } = body;
+      const { username, email, password } = JSON.parse(body);
       const user = await client.user.create({
         data: {
-          name: name,
+          name: username,
           email: email,
           password: password,
         },
       });
       res.status(201).json({ user: user });
+      break;
     default:
       res.status(405).json({ message: "Unsupported Operation" });
+      break;
   }
 }

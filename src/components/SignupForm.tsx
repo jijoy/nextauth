@@ -8,6 +8,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { useState } from "react";
 import Link from "next/link";
 import { createSecureServer } from "http2";
+import { useRouter } from "next/router";
 
 type UserProps = {
     username: string,
@@ -20,7 +21,12 @@ export default function SignupForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
-    const createUser = ({ username, password, email }: UserProps) => {
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('')
+    const router = useRouter();
+
+    const createUser = () => {
         fetch('/api/auth/signup', {
             method: 'POST',
             body: JSON.stringify({
@@ -28,8 +34,14 @@ export default function SignupForm() {
                 password: password,
                 email: email
             })
-        }).then(response => response.json()).then()
-    };
+        }).then(response => response.json()).
+            then(responseJson => {
+                setIsSuccess(responseJson.user)
+                if (isSuccess) {
+                    router.push('/');
+                }
+            });
+    }
 
     return (
         <Flex minHeight={"100vh"} alignSelf={'center'}
@@ -50,21 +62,21 @@ export default function SignupForm() {
                                 <FormLabel>
                                     Name
                                 </FormLabel>
-                                <Input type="text" />
+                                <Input type="text" onChange={(e) => { setUsername(e.target.value) }} />
                             </FormControl>
                         </Box>
                         <FormControl id="email" isRequired>
                             <FormLabel>
                                 Email
                             </FormLabel>
-                            <Input type="email" />
+                            <Input type="email" onChange={(e) => { setEmail(e.target.value) }} />
                         </FormControl>
                         <FormControl id="password" isRequired>
                             <FormLabel>
                                 Password
                             </FormLabel>
                             <InputGroup>
-                                <Input type={showPassword ? 'text' : 'password'} />
+                                <Input type={showPassword ? 'text' : 'password'} onChange={(e) => { setPassword(e.target.value) }} />
                                 <InputRightElement h={'full'}>
                                     <Button variant="ghost" onClick={() => {
                                         setShowPassword(!showPassword);
@@ -77,7 +89,7 @@ export default function SignupForm() {
                         <Stack spacing={10} pt={2}>
                             <Button loadingText="Submitting..."
                                 size={"lg"} bg={"blue.400"} color={"white"} _hover={{ bg: "blue.500" }}
-                                onClick={ }>
+                                onClick={() => { createUser() }}>
                                 Signup
                             </Button>
                         </Stack>

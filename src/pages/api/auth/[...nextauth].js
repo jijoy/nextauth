@@ -26,7 +26,6 @@ export const authOptions = {
             password: password,
           },
         });
-        console.log(`User found -->${user}`);
         if (user) {
           // Any object returned will be saved in `user` property of the JWT
           return user;
@@ -55,9 +54,6 @@ export const authOptions = {
     // async signIn({ user, account, profile, email, credentials }) { return true },
     // async redirect({ url, baseUrl }) { return baseUrl },
     async session({ session, token, user }) {
-      console.log(`Session ${session}`);
-      console.log(`Token ${token}`);
-      console.log(`User ${user}`);
       return session;
     },
     // async jwt({ token, user, account, profile, isNewUser }) { return token }

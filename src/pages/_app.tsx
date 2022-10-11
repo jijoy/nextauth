@@ -4,7 +4,6 @@ import { SessionProvider } from "next-auth/react"
 import { ChakraProvider } from '@chakra-ui/react'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  console.log(pageProps);
   return (
     <SessionProvider session={pageProps.session}>
       <ChakraProvider>

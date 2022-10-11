@@ -4,40 +4,37 @@ import Link from "next/link";
 import { useEffect } from "react";
 
 export default function LoginButton() {
-    const { data: session, status } = useSession();
+    const { data: session, status } = useSession({ required: true });
 
     if (session) {
 
         return (
-            <Flex minHeight={"100vh"} alignSelf={'center'}
-                justifyItems={'center'} bg={useColorModeValue('gray.50', 'gray.800')}
-            >
 
-                <Box boxShadow={"md"} >
-                    Signed in as {session.user?.email} <br />
-                    <Button onClick={() => signOut()}>Sign out</Button>
-                </Box>
-            </Flex>
+            <Box boxShadow={"md"} alignSelf={'center'}
+                justifyItems={'center'} >
+                <Stack align={'center'} justify={'center'}>
+                    <Text>Signed in as {session.user?.email}</Text>
+                    <Button bg={'blue.400'} _hover={{ bg: 'blue.600' }} color={'white'} variant={'outline'} w={'sm'}
+                        onClick={() => signOut()}>Sign out</Button>
+                </Stack>
+            </Box >
         )
     } else {
         return (
-            <Flex minHeight={"100vh"} alignSelf={'center'} w={"100vw"} justifyContent={"center"}
-                justifyItems={'center'} alignItems={"center"} bg={useColorModeValue('gray.50', 'gray.800')}>
-                <Stack>
-                    <Box alignSelf={"center"} >
-                        <Text fontSize={"4xl"}>
-                            Not signed in
-                        </Text>
-                    </Box>
-                    <Box alignSelf={"center"} >
+            <Stack>
+                <Box alignSelf={"center"} >
+                    <Text fontSize={"4xl"}>
+                        Login
+                    </Text>
+                </Box>
+                <Box alignSelf={"center"} >
 
-                        <Button onClick={() => signIn()}>Sign in</Button>
-                    </Box>
-                    <Box>
-                        No account ? <Button variant={"ghost"}><Link href="/signup">Signup</Link></Button>
-                    </Box>
-                </Stack>
-            </Flex >
+                    <Button onClick={() => signIn()}>Sign in</Button>
+                </Box>
+                <Box>
+                    <Text>Not a member yet? <Button><Link href="/signup" >Signup</Link></Button></Text>
+                </Box>
+            </Stack>
         )
     }
 }

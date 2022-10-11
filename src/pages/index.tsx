@@ -8,13 +8,13 @@ import SignupForm from '../components/SignupForm'
 
 const Home: NextPage = () => {
   return (
-    <Flex h={"full"} boxShadow={"md"}>
-      <Stack>
-        <Box>
+    <Flex minHeight={"100vh"} alignSelf={'center'} w={"100vw"} justifyContent={"center"}>
+      <Stack align={'center'} justify={'center'}>
+        <Box >
           <LoginButton />
         </Box>
       </Stack>
-    </Flex>
+    </Flex >
   )
 }
 
